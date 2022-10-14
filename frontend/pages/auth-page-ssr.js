@@ -1,5 +1,4 @@
-
-import { tokenService } from '../src/services/auth/tokenService';
+import { withSession } from '../src/services/auth/session'
 
 function AuthPageSSR(props) {
 
@@ -10,20 +9,36 @@ function AuthPageSSR(props) {
       </h1>
       <pre>
         {JSON.stringify(props, null, 2)}
-      </pre>  
+      </pre>
     </div>
   )
 }
 
 export default AuthPageSSR;
 
-export async function getServerSideProps(ctx) {
-  const token = tokenService.get(ctx)
-  console.log(token)
+export const getServerSideProps = withSession((ctx) => {
   return {
     props: {
-      token: token
-    },
+      session: ctx.session
+    }
   }
-}
+})
+
+// export async function getServerSideProps(ctx) {
+//   try {
+//     const session = await authService.getSession(ctx)
+//     return {
+//       props: {
+//         session,
+//       },
+//     }
+//   } catch (err) {
+//     return {
+//       redirect: {
+//         permanent: false,
+//         destination: '/error=401'
+//       }
+//     }
+//   }
+// }
 
