@@ -1,3 +1,5 @@
+import { withSessionHOC } from '../src/services/auth/session'
+
 function AuthPageStatic(props) {
   return (
     <div>
@@ -6,9 +8,10 @@ function AuthPageStatic(props) {
       </h1>
       <pre>
         {JSON.stringify(props, null, 2)}
-      </pre> 
+      </pre>
     </div>
   )
 }
 
-export default AuthPageStatic;
+export default withSessionHOC(AuthPageStatic);
+
